@@ -1,0 +1,20 @@
+{
+  "name": "purescript-dom-classy",
+  "homepage": "https://github.com/garyb/purescript-dom-classy",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/garyb/purescript-dom-classy.git"
+  },
+  "ignore": [
+    "**/.*",
+    "bower_components",
+    "node_modules",
+    "output",
+    "bower.json",
+    "package.json"
+  ],
+  "dependencies": {
+    "purescript-dom": "^3.2.0"
+  }
+}
