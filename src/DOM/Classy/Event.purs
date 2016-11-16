@@ -14,6 +14,10 @@ class IsEvent e where
   toEvent :: e -> E.Event
   fromEvent :: E.Event -> Maybe e
 
+instance isEventEvent :: IsEvent E.Event where
+  toEvent = id
+  fromEvent = Just
+
 instance isEventCustomEvent :: IsEvent E.CustomEvent where
   toEvent = E.customEventToEvent
   fromEvent = either (const Nothing) Just <<< runExcept <<< E.readCustomEvent <<< toForeign
