@@ -15,6 +15,6 @@
     "package.json"
   ],
   "dependencies": {
-    "purescript-dom": "^3.2.0"
+    "purescript-dom": "^3.4.0"
   }
 }
