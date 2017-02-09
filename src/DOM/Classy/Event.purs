@@ -3,13 +3,11 @@ module DOM.Classy.Event where
 import Prelude
 
 import Control.Monad.Eff (Eff)
-import Control.Monad.Except (runExcept)
 
-import Data.Either (either)
-import Data.Foreign (toForeign)
 import Data.Maybe (Maybe(..))
 
 import DOM (DOM)
+import DOM.Classy.Util (fromAny)
 import DOM.Event.Event as EE
 import DOM.Event.EventPhase (EventPhase)
 import DOM.Event.Types as E
@@ -80,60 +78,60 @@ instance isEventEvent :: IsEvent E.Event where
 
 instance isEventCustomEvent :: IsEvent E.CustomEvent where
   toEvent = E.customEventToEvent
-  fromEvent = either (const Nothing) Just <<< runExcept <<< E.readCustomEvent <<< toForeign
+  fromEvent = fromAny E.readCustomEvent
 
 instance isEventUIEvent :: IsEvent E.UIEvent where
   toEvent = E.uiEventToEvent
-  fromEvent = either (const Nothing) Just <<< runExcept <<< E.readUIEvent <<< toForeign
+  fromEvent = fromAny E.readUIEvent
 
 instance isEventFocusEvent :: IsEvent E.FocusEvent where
   toEvent = E.focusEventToEvent
-  fromEvent = either (const Nothing) Just <<< runExcept <<< E.readFocusEvent <<< toForeign
+  fromEvent = fromAny E.readFocusEvent
 
 instance isEventMouseEvent :: IsEvent E.MouseEvent where
   toEvent = E.mouseEventToEvent
-  fromEvent = either (const Nothing) Just <<< runExcept <<< E.readMouseEvent <<< toForeign
+  fromEvent = fromAny E.readMouseEvent
 
 instance isEventWheelEvent :: IsEvent E.WheelEvent where
   toEvent = E.wheelEventToEvent
-  fromEvent = either (const Nothing) Just <<< runExcept <<< E.readWheelEvent <<< toForeign
+  fromEvent = fromAny E.readWheelEvent
 
 instance isEventTouchEvent :: IsEvent E.TouchEvent where
   toEvent = E.touchEventToEvent
-  fromEvent = either (const Nothing) Just <<< runExcept <<< E.readTouchEvent <<< toForeign
+  fromEvent = fromAny E.readTouchEvent
 
 instance isEventInputEvent :: IsEvent E.InputEvent where
   toEvent = E.inputEventToEvent
-  fromEvent = either (const Nothing) Just <<< runExcept <<< E.readInputEvent <<< toForeign
+  fromEvent = fromAny E.readInputEvent
 
 instance isEventKeyboardEvent :: IsEvent E.KeyboardEvent where
   toEvent = E.keyboardEventToEvent
-  fromEvent = either (const Nothing) Just <<< runExcept <<< E.readKeyboardEvent <<< toForeign
+  fromEvent = fromAny E.readKeyboardEvent
 
 instance isEventCompositionEvent :: IsEvent E.CompositionEvent where
   toEvent = E.compositionEventToEvent
-  fromEvent = either (const Nothing) Just <<< runExcept <<< E.readCompositionEvent <<< toForeign
+  fromEvent = fromAny E.readCompositionEvent
 
 instance isEventProgressEvent :: IsEvent E.ProgressEvent where
   toEvent = E.progressEventToEvent
-  fromEvent = either (const Nothing) Just <<< runExcept <<< E.readProgressEvent <<< toForeign
+  fromEvent = fromAny E.readProgressEvent
 
 instance isEventDragEvent :: IsEvent HE.DragEvent where
 	toEvent = HE.dragEventToEvent
-	fromEvent = either (const Nothing) Just <<< runExcept <<< HE.readDragEvent <<< toForeign
+	fromEvent = fromAny HE.readDragEvent
 
 instance isEventErrorEvent :: IsEvent HE.ErrorEvent where
 	toEvent = HE.errorEventToEvent
-	fromEvent = either (const Nothing) Just <<< runExcept <<< HE.readErrorEvent <<< toForeign
+	fromEvent = fromAny HE.readErrorEvent
 
 instance isEventHashChangeEvent :: IsEvent HE.HashChangeEvent where
 	toEvent = HE.hashChangeEventToEvent
-	fromEvent = either (const Nothing) Just <<< runExcept <<< HE.readHashChangeEvent <<< toForeign
+	fromEvent = fromAny HE.readHashChangeEvent
 
 instance isEventCloseEvent :: IsEvent WS.CloseEvent where
 	toEvent = WS.closeEventToEvent
-	fromEvent = either (const Nothing) Just <<< runExcept <<< WS.readCloseEvent <<< toForeign
+	fromEvent = fromAny WS.readCloseEvent
 
 instance isEventMessageEvent :: IsEvent WS.MessageEvent where
 	toEvent = WS.messageEventToEvent
-	fromEvent = either (const Nothing) Just <<< runExcept <<< WS.readMessageEvent <<< toForeign
+	fromEvent = fromAny WS.readMessageEvent
