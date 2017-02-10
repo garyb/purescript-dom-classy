@@ -1,4 +1,7 @@
-module DOM.Classy.HTMLElement where
+module DOM.Classy.HTMLElement
+  ( module DOM.Classy.HTMLElement
+  , module Exports
+  ) where
 
 import Prelude
 
@@ -14,6 +17,8 @@ import DOM.HTML.Types as H
 import DOM.Node.Types (Element)
 
 import Unsafe.Coerce as U
+
+import DOM.Classy.Element (appendChild, baseURI, childNodes, className, clientHeight, clientLeft, clientTop, clientWidth, compareDocumentPositionBits, contains, firstChild, getAttribute, getElementsByClassName, getElementsByTagName, getElementsByTagNameNS, hasChildNodes, id, insertBefore, isDefaultNamespace, isEqualNode, lastChild, localName, lookupNamespaceURI, lookupPrefix, namespaceURI, nextSibling, nodeName, nodeType, nodeTypeIndex, nodeValue, normalize, ownerDocument, parentElement, parentNode, prefix, previousSibling, removeAttribute, removeChild, replaceChild, scrollHeight, scrollLeft, scrollTop, scrollWidth, setAttribute, setClassName, setId, setNodeValue, setScrollLeft, setScrollTop, setTextContent, tagName, textContent) as Exports
 
 -- | A class for subtypes of `HTMLElement`.
 class IsElement e <= IsHTMLElement e where
@@ -37,12 +42,6 @@ dir = HE.dir <<< toHTMLElement
 
 setDir :: forall el eff. IsHTMLElement el => String -> el -> Eff (dom :: DOM | eff) Unit
 setDir d = HE.setDir d <<< toHTMLElement
-
-className :: forall el eff. IsHTMLElement el => el -> Eff (dom :: DOM | eff) String
-className = HE.className <<< toHTMLElement
-
-setClassName :: forall el eff. IsHTMLElement el => String -> el -> Eff (dom :: DOM | eff) Unit
-setClassName cn = HE.setClassName cn <<< toHTMLElement
 
 hidden :: forall el eff. IsHTMLElement el => el -> Eff (dom :: DOM | eff) Boolean
 hidden = HE.hidden <<< toHTMLElement
