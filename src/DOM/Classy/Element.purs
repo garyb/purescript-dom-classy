@@ -1,4 +1,7 @@
-module DOM.Classy.Element where
+module DOM.Classy.Element
+  ( module DOM.Classy.Element
+  , module Exports
+  ) where
 
 import Prelude hiding (id)
 import Prelude as P
@@ -16,6 +19,8 @@ import DOM.Node.Types as N
 import DOM.Node.Element as NE
 
 import Unsafe.Coerce as U
+
+import DOM.Classy.Node (appendChild, baseURI, childNodes, compareDocumentPositionBits, contains, firstChild, hasChildNodes, insertBefore, isDefaultNamespace, isEqualNode, lastChild, lookupNamespaceURI, lookupPrefix, nextSibling, nodeName, nodeType, nodeTypeIndex, nodeValue, normalize, ownerDocument, parentElement, parentNode, previousSibling, removeChild, replaceChild, setNodeValue, setTextContent, textContent) as Exports
 
 -- | A class for subtypes of `Element`.
 class IsNode e <= IsElement e where
