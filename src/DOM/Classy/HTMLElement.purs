@@ -7,7 +7,6 @@ import Prelude
 
 import Control.Monad.Eff (Eff)
 import Data.Maybe (Maybe(..))
-import Data.Nullable (Nullable)
 
 import DOM (DOM)
 import DOM.Classy.Element (class IsElement)
@@ -100,7 +99,7 @@ getBoundingClientRect
       }
 getBoundingClientRect = HE.getBoundingClientRect <<< toHTMLElement
 
-offsetParent :: forall el eff. IsHTMLElement el => el -> Eff (dom :: DOM | eff) (Nullable Element)
+offsetParent :: forall el eff. IsHTMLElement el => el -> Eff (dom :: DOM | eff) (Maybe Element)
 offsetParent = HE.offsetParent <<< toHTMLElement
 
 offsetTop :: forall el eff. IsHTMLElement el => el -> Eff (dom :: DOM | eff) Number

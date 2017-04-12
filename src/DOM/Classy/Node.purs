@@ -5,7 +5,6 @@ import Prelude
 import Control.Monad.Eff (Eff)
 
 import Data.Maybe (Maybe(..))
-import Data.Nullable (Nullable)
 
 import DOM (DOM)
 import DOM.Classy.Util (fromAny)
@@ -22,7 +21,7 @@ class IsNode n where
   fromNode :: N.Node -> Maybe n
 
 -- | The type of a node.
-nodeType :: forall n. (Partial, IsNode n) => n -> NodeType
+nodeType :: forall n. Partial => IsNode n => n -> NodeType
 nodeType = NN.nodeType <<< toNode
 
 -- | The numeric value for the type of a node.
@@ -42,15 +41,15 @@ baseURI = NN.baseURI <<< toNode
 
 -- | The document the node belongs to, unless the node is a document in which
 -- | case the value is null.
-ownerDocument :: forall n eff. IsNode n => n -> Eff (dom :: DOM | eff) (Nullable N.Document)
+ownerDocument :: forall n eff. IsNode n => n -> Eff (dom :: DOM | eff) (Maybe N.Document)
 ownerDocument = NN.ownerDocument <<< toNode
 
 -- | The parent node of the node.
-parentNode :: forall n eff. IsNode n => n -> Eff (dom :: DOM | eff) (Nullable N.Node)
+parentNode :: forall n eff. IsNode n => n -> Eff (dom :: DOM | eff) (Maybe N.Node)
 parentNode = NN.parentNode <<< toNode
 
 -- | The parent element of the node.
-parentElement :: forall n eff. IsNode n => n -> Eff (dom :: DOM | eff) (Nullable N.Element)
+parentElement :: forall n eff. IsNode n => n -> Eff (dom :: DOM | eff) (Maybe N.Element)
 parentElement = NN.parentElement <<< toNode
 
 -- | Indicates whether the node has any child nodes.
@@ -62,19 +61,19 @@ childNodes :: forall n eff. IsNode n => n -> Eff (dom :: DOM | eff) N.NodeList
 childNodes = NN.childNodes <<< toNode
 
 -- | The first child of the node, or null if the node has no children.
-firstChild :: forall n eff. IsNode n => n -> Eff (dom :: DOM | eff) (Nullable N.Node)
+firstChild :: forall n eff. IsNode n => n -> Eff (dom :: DOM | eff) (Maybe N.Node)
 firstChild = NN.firstChild <<< toNode
 
 -- | The last child of the node, or null if the node has no children.
-lastChild :: forall n eff. IsNode n => n -> Eff (dom :: DOM | eff) (Nullable N.Node)
+lastChild :: forall n eff. IsNode n => n -> Eff (dom :: DOM | eff) (Maybe N.Node)
 lastChild = NN.lastChild <<< toNode
 
 -- | The previous sibling node, or null if there is no previous sibling.
-previousSibling :: forall n eff. IsNode n => n -> Eff (dom :: DOM | eff) (Nullable N.Node)
+previousSibling :: forall n eff. IsNode n => n -> Eff (dom :: DOM | eff) (Maybe N.Node)
 previousSibling = NN.previousSibling <<< toNode
 
 -- | The next sibling node, or null if there is no next sibling.
-nextSibling :: forall n eff. IsNode n => n -> Eff (dom :: DOM | eff) (Nullable N.Node)
+nextSibling :: forall n eff. IsNode n => n -> Eff (dom :: DOM | eff) (Maybe N.Node)
 nextSibling = NN.nextSibling <<< toNode
 
 -- | If the node type is text, comment, or processing instruction this is the
@@ -105,41 +104,41 @@ normalize :: forall n eff. IsNode n => n -> Eff (dom :: DOM | eff) Unit
 normalize = NN.normalize <<< toNode
 
 -- | Checks whether two nodes are equivalent.
-isEqualNode :: forall n1 n2 eff. (IsNode n1, IsNode n2) => n1 -> n2 -> Eff (dom :: DOM | eff) Boolean
+isEqualNode :: forall n1 n2 eff. IsNode n1 => IsNode n2 => n1 -> n2 -> Eff (dom :: DOM | eff) Boolean
 isEqualNode n1 n2 = NN.isEqualNode (toNode n1) (toNode n2)
 
 -- | Compares the position of two nodes in the document.
-compareDocumentPositionBits :: forall n1 n2 eff. (IsNode n1, IsNode n2) => n1 -> n2 -> Eff (dom :: DOM | eff) Int
+compareDocumentPositionBits :: forall n1 n2 eff. IsNode n1 => IsNode n2 => n1 -> n2 -> Eff (dom :: DOM | eff) Int
 compareDocumentPositionBits n1 n2 = NN.compareDocumentPositionBits (toNode n1) (toNode n2)
 
 -- | Checks whether the second node is contained within the first
-contains :: forall n1 n2 eff. (IsNode n1, IsNode n2) => n1 -> n2 -> Eff (dom :: DOM | eff) Boolean
+contains :: forall n1 n2 eff. IsNode n1 => IsNode n2 => n1 -> n2 -> Eff (dom :: DOM | eff) Boolean
 contains n1 n2 = NN.contains (toNode n1) (toNode n2)
 
-lookupPrefix :: forall n eff. IsNode n => String -> n -> Eff (dom :: DOM | eff) (Nullable String)
+lookupPrefix :: forall n eff. IsNode n => String -> n -> Eff (dom :: DOM | eff) (Maybe String)
 lookupPrefix s = NN.lookupPrefix s <<< toNode
 
-lookupNamespaceURI :: forall n eff. IsNode n => String -> n -> Eff (dom :: DOM | eff) (Nullable String)
+lookupNamespaceURI :: forall n eff. IsNode n => String -> n -> Eff (dom :: DOM | eff) (Maybe String)
 lookupNamespaceURI s = NN.lookupNamespaceURI s <<< toNode
 
 isDefaultNamespace :: forall n eff. IsNode n => String -> n -> Eff (dom :: DOM | eff) Boolean
 isDefaultNamespace s = NN.isDefaultNamespace s <<< toNode
 
 -- | Inserts the first node before the second as a child of the third node.
-insertBefore :: forall n1 n2 n3 eff. (IsNode n1, IsNode n2, IsNode n3) => n1 -> n2 -> n3 -> Eff (dom :: DOM | eff) N.Node
+insertBefore :: forall n1 n2 n3 eff. IsNode n1 => IsNode n2 => IsNode n3 => n1 -> n2 -> n3 -> Eff (dom :: DOM | eff) N.Node
 insertBefore n1 n2 n3 = NN.insertBefore (toNode n1) (toNode n2) (toNode n3)
 
 -- | Appends the first node to the child node list of the second node.
-appendChild :: forall n1 n2 eff. (IsNode n1, IsNode n2) => n1 -> n2 -> Eff (dom :: DOM | eff) N.Node
+appendChild :: forall n1 n2 eff. IsNode n1 => IsNode n2 => n1 -> n2 -> Eff (dom :: DOM | eff) N.Node
 appendChild n1 n2 = NN.appendChild (toNode n1) (toNode n2)
 
 -- | Uses the first node as a replacement for the second node in the children
 -- | of the third node.
-replaceChild :: forall n1 n2 n3 eff. (IsNode n1, IsNode n2, IsNode n3) => n1 -> n2 -> n3 -> Eff (dom :: DOM | eff) N.Node
+replaceChild :: forall n1 n2 n3 eff. IsNode n1 => IsNode n2 => IsNode n3 => n1 -> n2 -> n3 -> Eff (dom :: DOM | eff) N.Node
 replaceChild n1 n2 n3 = NN.replaceChild (toNode n1) (toNode n2) (toNode n3)
 
 -- | Removes the first node from the children of the second node.
-removeChild :: forall n1 n2 eff. (IsNode n1, IsNode n2) => n1 -> n2 -> Eff (dom :: DOM | eff) N.Node
+removeChild :: forall n1 n2 eff. IsNode n1 => IsNode n2 => n1 -> n2 -> Eff (dom :: DOM | eff) N.Node
 removeChild n1 n2 = NN.removeChild (toNode n1) (toNode n2)
 
 instance isNodeNode :: IsNode N.Node where

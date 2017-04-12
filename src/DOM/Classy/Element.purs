@@ -8,7 +8,6 @@ import Prelude as P
 
 import Control.Monad.Eff (Eff)
 import Data.Maybe (Maybe(..))
-import Data.Nullable (Nullable)
 
 import DOM.Classy.Node (class IsNode)
 import DOM.Classy.Util (fromAny)
@@ -27,10 +26,10 @@ class IsNode e <= IsElement e where
   toElement :: e -> N.Element
   fromElement :: N.Element -> Maybe e
 
-namespaceURI :: forall el. IsElement el => el -> Nullable String
+namespaceURI :: forall el. IsElement el => el -> Maybe String
 namespaceURI = NE.namespaceURI <<< toElement
 
-prefix :: forall el. IsElement el => el -> Nullable String
+prefix :: forall el. IsElement el => el -> Maybe String
 prefix = NE.prefix <<< toElement
 
 localName :: forall el. IsElement el => el -> String
@@ -54,7 +53,7 @@ setClassName x = NE.setClassName x <<< toElement
 getElementsByTagName :: forall eff el. IsElement el => String -> el -> Eff (dom :: DOM | eff) N.HTMLCollection
 getElementsByTagName x = NE.getElementsByTagName x <<< toElement
 
-getElementsByTagNameNS :: forall eff el. IsElement el => Nullable String -> String -> el -> Eff (dom :: DOM | eff) N.HTMLCollection
+getElementsByTagNameNS :: forall eff el. IsElement el => Maybe String -> String -> el -> Eff (dom :: DOM | eff) N.HTMLCollection
 getElementsByTagNameNS x y = NE.getElementsByTagNameNS x y <<< toElement
 
 getElementsByClassName :: forall eff el. IsElement el => String -> el -> Eff (dom :: DOM | eff) N.HTMLCollection
@@ -63,7 +62,7 @@ getElementsByClassName x = NE.getElementsByClassName x <<< toElement
 setAttribute :: forall eff el. IsElement el => String -> String -> el -> Eff (dom :: DOM | eff) Unit
 setAttribute x y = NE.setAttribute x y <<< toElement
 
-getAttribute :: forall eff el. IsElement el => String -> el -> Eff (dom :: DOM | eff) (Nullable String)
+getAttribute :: forall eff el. IsElement el => String -> el -> Eff (dom :: DOM | eff) (Maybe String)
 getAttribute x = NE.getAttribute x <<< toElement
 
 removeAttribute :: forall eff el. IsElement el => String -> el -> Eff (dom :: DOM | eff) Unit

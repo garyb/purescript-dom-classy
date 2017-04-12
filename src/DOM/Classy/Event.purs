@@ -34,7 +34,7 @@ currentTarget = EE.currentTarget <<< toEvent
 
 -- | Indicates which phase of the event flow that is currently being processed
 -- | for the event.
-eventPhase :: forall e. (IsEvent e, Partial) => e -> EventPhase
+eventPhase :: forall e. IsEvent e => Partial => e -> EventPhase
 eventPhase = EE.eventPhase <<< toEvent
 
 -- | The integer value for the current event phase.
