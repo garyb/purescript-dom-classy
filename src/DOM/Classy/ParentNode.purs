@@ -5,7 +5,6 @@ import Prelude
 import Control.Monad.Eff (Eff)
 
 import Data.Maybe (Maybe)
-import Data.Nullable (Nullable)
 
 import DOM (DOM)
 import DOM.Classy.Util (fromAny)
@@ -25,11 +24,11 @@ children :: forall n eff. IsParentNode n => n -> Eff (dom :: DOM | eff) N.HTMLCo
 children = PN.children <<< toParentNode
 
 -- | The first child that is an element, or null if no such element exists.
-firstElementChild :: forall n eff. IsParentNode n => n -> Eff (dom :: DOM | eff) (Nullable N.Element)
+firstElementChild :: forall n eff. IsParentNode n => n -> Eff (dom :: DOM | eff) (Maybe N.Element)
 firstElementChild = PN.firstElementChild <<< toParentNode
 
 -- | The last child that is an element, or null if no such element exists.
-lastElementChild :: forall n eff. IsParentNode n => n -> Eff (dom :: DOM | eff) (Nullable N.Element)
+lastElementChild :: forall n eff. IsParentNode n => n -> Eff (dom :: DOM | eff) (Maybe N.Element)
 lastElementChild = PN.lastElementChild <<< toParentNode
 
 -- | The number of child elements.
@@ -38,11 +37,11 @@ childElementCount = PN.childElementCount <<< toParentNode
 
 -- | Finds the first child that is an element that matches the selector(s), or
 -- | null if no such element exists.
-querySelector :: forall n eff. IsParentNode n => String -> n -> Eff (dom :: DOM | eff) (Nullable N.Element)
+querySelector :: forall n eff. IsParentNode n => PN.QuerySelector -> n -> Eff (dom :: DOM | eff) (Maybe N.Element)
 querySelector selector = PN.querySelector selector <<< toParentNode
 
 -- | Finds all the child elements that matches the selector(s).
-querySelectorAll :: forall n eff. IsParentNode n => String -> n -> Eff (dom :: DOM | eff) N.NodeList
+querySelectorAll :: forall n eff. IsParentNode n => PN.QuerySelector -> n -> Eff (dom :: DOM | eff) N.NodeList
 querySelectorAll selector = PN.querySelectorAll selector <<< toParentNode
 
 instance isParentNodeDocument :: IsParentNode N.Document where
