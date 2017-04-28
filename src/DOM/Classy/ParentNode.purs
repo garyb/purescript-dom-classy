@@ -52,6 +52,10 @@ instance isParentNodeElement :: IsParentNode N.Element where
   toParentNode = U.unsafeCoerce
   fromParentNode = fromAny N.readElement
 
+instance isParentNodeHTMLDocument :: IsParentNode H.HTMLDocument where
+  toParentNode = U.unsafeCoerce
+  fromParentNode = fromAny H.readHTMLDocument
+
 instance isParentNodeHTMLElement :: IsParentNode H.HTMLElement where
   toParentNode = U.unsafeCoerce
   fromParentNode = fromAny H.readHTMLElement
