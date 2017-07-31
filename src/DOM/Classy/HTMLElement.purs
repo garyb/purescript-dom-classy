@@ -84,19 +84,7 @@ focus = HE.focus <<< toHTMLElement
 blur :: forall el eff. IsHTMLElement el => el -> Eff (dom :: DOM | eff) Unit
 blur = HE.blur <<< toHTMLElement
 
-getBoundingClientRect
-  :: forall el eff
-   . IsHTMLElement el
-  => el
-  -> Eff
-      (dom :: DOM | eff)
-      { left :: Number
-      , top :: Number
-      , right :: Number
-      , bottom :: Number
-      , width :: Number
-      , height :: Number
-      }
+getBoundingClientRect :: forall el eff . IsHTMLElement el => el -> Eff (dom :: DOM | eff) HE.DOMRect
 getBoundingClientRect = HE.getBoundingClientRect <<< toHTMLElement
 
 offsetParent :: forall el eff. IsHTMLElement el => el -> Eff (dom :: DOM | eff) (Maybe Element)
