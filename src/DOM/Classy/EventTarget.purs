@@ -12,37 +12,37 @@ import Control.Monad.Eff.Exception (EXCEPTION)
 import DOM (DOM)
 import DOM.Classy.Event (class IsEvent, toEvent)
 import DOM.Event.EventTarget as E
-import DOM.Event.Types (EventType(..))
+import DOM.Event.Types (EventType)
 import DOM.HTML.Types as H
 import DOM.Node.Types as N
 import Unsafe.Coerce (unsafeCoerce)
 
 
 class EventTarget t where
-  addEventListener :: forall eff. String -> E.EventListener (dom :: DOM | eff) -> Boolean -> t -> Eff (dom :: DOM | eff) Unit
-  removeEventListener :: forall eff. String -> E.EventListener (dom :: DOM | eff) -> Boolean -> t -> Eff (dom :: DOM | eff) Unit
+  addEventListener :: forall eff. EventType -> E.EventListener (dom :: DOM | eff) -> Boolean -> t -> Eff (dom :: DOM | eff) Unit
+  removeEventListener :: forall eff. EventType -> E.EventListener (dom :: DOM | eff) -> Boolean -> t -> Eff (dom :: DOM | eff) Unit
   dispatchEvent :: forall event eff. IsEvent event => event -> t -> Eff (dom :: DOM, err :: EXCEPTION | eff) Boolean
 
 
 _addEventListener
   :: forall eff a
-   . String
+   . EventType
   -> E.EventListener (dom :: DOM | eff)
   -> Boolean
   -> a
   -> Eff (dom :: DOM | eff) Unit
 _addEventListener eventType listener capture target =
-  E.addEventListener (EventType eventType) listener capture (unsafeCoerce target)
+  E.addEventListener eventType listener capture (unsafeCoerce target)
 
 _removeEventListener
   :: forall eff a
-   . String
+   . EventType
   -> E.EventListener (dom :: DOM | eff)
   -> Boolean
   -> a
   -> Eff (dom :: DOM | eff) Unit
 _removeEventListener eventType listener capture target =
-  E.removeEventListener (EventType eventType) listener capture (unsafeCoerce target)
+  E.removeEventListener eventType listener capture (unsafeCoerce target)
 
 _dispatchEvent
   :: forall eff e a
