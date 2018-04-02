@@ -14,8 +14,8 @@ import Control.Monad.Eff (Eff)
 import Control.Monad.Eff.Exception (EXCEPTION)
 import DOM (DOM)
 import DOM.Classy.Event (class IsEvent, fromEvent, toEvent)
-import DOM.Event.EventTarget as E
 import DOM.Event.EventTarget (EventListener) as Exports
+import DOM.Event.EventTarget as E
 import DOM.Event.Types (EventTarget, EventType)
 import DOM.HTML.Types as H
 import DOM.Node.Types as N
@@ -75,7 +75,37 @@ dispatchEvent
 dispatchEvent event =
   E.dispatchEvent (toEvent event) <<< toEventTarget
 
+instance eventTargetNode :: EventTarget N.Node where
+  toEventTarget = U.unsafeCoerce
+
+instance eventTargetDocument :: EventTarget N.Document where
+  toEventTarget = U.unsafeCoerce
+
 instance eventTargetElement :: EventTarget N.Element where
+  toEventTarget = U.unsafeCoerce
+
+instance eventTargetCharacterData :: EventTarget N.CharacterData where
+  toEventTarget = U.unsafeCoerce
+
+instance eventTargetText :: EventTarget N.Text where
+  toEventTarget = U.unsafeCoerce
+
+instance eventTargetComment :: EventTarget N.Comment where
+  toEventTarget = U.unsafeCoerce
+
+instance eventTargetProcessingInstruction :: EventTarget N.ProcessingInstruction where
+  toEventTarget = U.unsafeCoerce
+
+instance eventTargetDocumentFragment :: EventTarget N.DocumentFragment where
+  toEventTarget = U.unsafeCoerce
+
+instance eventTargetDocumentType :: EventTarget N.DocumentType where
+  toEventTarget = U.unsafeCoerce
+
+instance eventTargetWindow :: EventTarget H.Window where
+  toEventTarget = U.unsafeCoerce
+
+instance eventTargetHTMLDocument :: EventTarget H.HTMLDocument where
   toEventTarget = U.unsafeCoerce
 
 instance eventTargetHTMLElement :: EventTarget H.HTMLElement where
@@ -190,6 +220,9 @@ instance eventTargetHTMLAreaElement :: EventTarget H.HTMLAreaElement where
   toEventTarget = U.unsafeCoerce
 
 instance eventTargetHTMLTableElement :: EventTarget H.HTMLTableElement where
+  toEventTarget = U.unsafeCoerce
+
+instance eventTargetHTMLTableCaptionElement :: EventTarget H.HTMLTableCaptionElement where
   toEventTarget = U.unsafeCoerce
 
 instance eventTargetHTMLTableColElement :: EventTarget H.HTMLTableColElement where
